@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>PlayORbit</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/remixicon@4.9.0/fonts/remixicon.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="rpsGame.css" />
+    <link rel="stylesheet" href="action.css" />
+  </head>
+  <body>
+    <header>
+      <nav>
+        <h1 id="title">PlayORbit</h1>
+        <div id="buttons">
+          <i id="home" class="ri-home-9-fill"></i>
+          <i id="play" class="ri-play-large-fill"></i>
+          <!-- <h1 id="home">Home</h1> -->
+          <!-- <h1 id="play">Play</h1> -->
+        </div>
+      </nav>
+    </header>
+    <main>
+      <div id="video">
+        <video src="assets/mainvideo.mp4" autoplay loop muted>main video</video>
+      </div>
+      <div id="shade"></div>
+      <div id="content">
+        <h1 id="title">ROCK PAPER SCISSOR</h1>
+        <h1 id="about">A game where luck destroys your confidence</h1>
+        <button id="playbtn">Play now</button>
+      </div>
+    </main>
+
+    <div id="rpsgame" hidden>
+      <div id="scores">
+        <div class="score" id="player_score">
+          <h1>You</h1>
+          <div class="scoreNumber" id="playerScore">0</div>
+        </div>
+        <div class="score" id="oppo_score">
+          <h1>Opponent</h1>
+          <div class="scoreNumber" id="oppoScore">0</div>
+        </div>
+      </div>
+      <div id="main">
+        <div class="img" id="player">
+          <img id="playerimage" src="assets/rock.png" />
+        </div>
+        <div class="img" id="oppo">
+          <img id="oppoimage" src="assets/rock.png" />
+        </div>
+      </div>
+      <div id="btn">
+        <button id="endbtn" hidden>End</button>
+        <!-- From Uiverse.io by Li-Deheng -->
+        <button id="contbtn" class="contbutton" hidden>
+          <span>Continue</span>
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 66 43">
+            <polygon
+              points="39.58,4.46 44.11,0 66,21.5 44.11,43 39.58,38.54 56.94,21.5"
+            ></polygon>
+            <polygon
+              points="19.79,4.46 24.32,0 46.21,21.5 24.32,43 19.79,38.54 37.15,21.5"
+            ></polygon>
+            <polygon
+              points="0,4.46 4.53,0 26.42,21.5 4.53,43 0,38.54 17.36,21.5"
+            ></polygon>
+          </svg>
+        </button>
+
+        <!-- <button id="contbtn" hidden>Continue</button> -->
+        <!-- <button id="startbtn">Start Now</button> -->
+        <button id="startbtn" class="button-with-icon">
+          <svg
+            class="icon"
+            id="Play"
+            viewBox="0 0 48 48"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <path
+              class="color000000 svgShape"
+              fill="#ffffff"
+              d="M12 39c-.549 0-1.095-.15-1.578-.447A3.008 3.008 0 0 1 9 36V12c0-1.041.54-2.007 1.422-2.553a3.014 3.014 0 0 1 2.919-.132l24 12a3.003 3.003 0 0 1 0 5.37l-24 12c-.42.21-.885.315-1.341.315z"
+            ></path>
+          </svg>
+          <span class="text">Play</span>
+        </button>
+      </div>
+      <div id="action" hidden>
+        <div id="contents">
+          <div class="content" id="title">
+            <h1>Pick your choise....</h1>
+          </div>
+          <div class="content" id="img">
+            <img id="rockbtn" src="assets/rock button 1.png" />
+            <img id="paperbtn" src="assets/paper button.png" />
+            <img id="scissorbtn" src="assets/scissor button.png" />
+          </div>
+          <div class="content" id="text">
+            <h1>Rock</h1>
+            <h1>paper</h1>
+            <h1>Scissor</h1>
+          </div>
+          <div id="actionbtn">
+            <button id="backbtn">Back</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <footer></footer>
+    <script src="script.js"></script>
+  </body>
+</html>

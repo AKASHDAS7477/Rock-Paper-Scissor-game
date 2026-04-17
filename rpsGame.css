@@ -1,0 +1,415 @@
+@import url('https://fonts.googleapis.com/css2?family=Alan+Sans:wght@300..900&family=Fjalla+One&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Alan+Sans:wght@300..900&display=swap");
+@font-face {
+  font-family: "grow";
+  src: url(fonts/Grow\ Year.ttf);
+}
+\*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  font-family: "Alan Sans", sans-serif;
+}
+html, body{
+    height: 100%;
+    width: 100%;
+    /* background-color: #101a30; */
+    /* background: linear-gradient(to bottom right, #001e3a, #000428); */
+    background-image: url('../assets/BACKGROUND.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+#rpsgame {
+    height: 100vh;
+    background-color: #050f24b1;
+}
+
+#scores {
+    height: 8vh;
+    width: 20vw;
+
+    /* background-color: brown; */
+    /* margin-top: 15vh; */
+    position: absolute;
+    top: 15vh;
+    left: 50%;
+    transform: translatex(-50%);
+    display: flex;
+    justify-content: center;
+    border:  2px solid rgb(154, 154, 154);
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 50px;
+    border-top-right-radius: 50px;
+    border-bottom-right-radius: 20px;
+    box-shadow:0 5px 5px #000000;
+}
+
+#scores #player_score {
+    background: #050f24;
+    color: #ffffff;
+    border-top-left-radius: 20px;
+    border-bottom-left-radius: 50px;
+}
+
+#scores #player_score h1 {
+    position: absolute;
+    right: 5%;
+    top: -10px;
+}
+#scores #oppo_score {
+    background: #fca311;
+    color: #ffffff;
+    border-top-right-radius: 50px;
+    border-bottom-right-radius: 20px;
+}
+#scores #oppo_score h1 {
+    position: absolute;
+    left: 5%;
+    bottom: -10px;
+}
+
+.score {
+    height: 100%;
+    width: 50%;
+    /* background-color: blue; */
+    font-size: 10px;
+    position: relative;
+    /* box-shadow: 0 0 10px 2px #000000; */
+    /* border: 2px solid rgb(255, 255, 255); */
+    font-family: "Istok Web", sans-serif;
+}
+.score h1{
+  font-family: 'grow';
+}
+
+.scoreNumber {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50% ,-50%);
+    font-size: 30px;
+    font-family: "grow", sans-serif;
+}
+#playerScore {
+    color: #fca311;
+}
+#oppoScore {
+    color: #101a30;
+}
+
+#main{
+    /* background-color: rgb(129, 129, 129); */
+    height: 80vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 70vh;
+}
+
+
+#oppo img{
+    transform: scalex(-1);
+}
+
+.img {
+    height: 90%;
+    position: relative;
+    top: 30%;
+    /* background-color: blue; */
+    user-select: none;
+}
+
+.img img {
+    object-fit: cover;
+    height: 60%;
+}
+
+#btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 30PX;
+    user-select: none;
+}
+
+/* #btn #startbtn {
+    /* position : relative;
+    top: 60%;
+    left: 50%; */
+    /* transform: translate(-50% , -50%); */
+    /*
+    font-size: 20px;
+    padding: 12px 30px;
+    z-index: 10;
+    font-family: "Fjalla One", sans-serif ;
+    background: none;
+    color: #ffffff;
+    /* border: 5px solid #fca311; */
+    /*
+    border: none;
+    border-radius: 30px;
+    font-weight: 900;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    background: #fca311;
+}
+#btn #startbtn:hover {
+    color: rgb(0, 0, 0);
+    box-shadow: 0 0 10px 5px #fca311;
+} */
+
+#btn #endbtn {
+    /* position : relative;
+    top: 60%;
+    left: 50%; */
+    /* transform: translate(-50% , -50%); */
+    font-size: 20px;
+    padding: 8px 30px;
+    z-index: 10;
+    font-family: "Istok Web", sans-serif;
+    background: none;
+    color: #ffffff;
+    /* border: 5px solid #fca311; */
+    border: none;
+    border-radius: 30px;
+    font-weight: 900;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+    background: #fc1111;
+}
+#btn #endbtn:hover {
+    color: rgb(0, 0, 0);
+    box-shadow: 0 0 10px 5px #fc1111;
+}
+/*
+#btn #contbtn {
+    /* position : relative;
+    top: 60%;
+    left: 50%; */
+    /* transform: translate(-50% , -50%); */
+    /*
+    font-size: 20px;
+    padding: 12px 30px;
+    z-index: 10;
+    font-family: "Fjalla One", sans-serif ;
+    background: #fca311;
+    color: #ffffff;
+    */
+    /* border: 5px solid #fca311; */
+    /*
+    border: none;
+    border-radius: 30px;
+    font-weight: 900;
+    cursor: pointer;
+    transition: transform 0.3s ease;
+}
+#btn #contbtn:hover {
+    box-shadow: 0 5px 5px #000000;
+}
+*/
+
+/* From Uiverse.io by Li-Deheng */ 
+.contbutton {
+  --main-size: 20px;
+  --color-text: #ffffff;
+  --color-background: #fca311;
+  --color-background-hover: #fca311;
+  --color-outline: #fca31140;
+  --color-shadow: #00000040;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  border: none;
+  border-radius: calc(var(--main-size) * 100);
+  padding: 0.33em 0 0.33em 0.66em;
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  font-size: var(--main-size);
+  color: var(--color-text);
+  background: var(--color-background);
+  box-shadow: 0 0 0.2em 0 var(--color-background);
+  transition: 1s;
+}
+
+.contbutton:active {
+  transform: scale(0.95);
+}
+
+.contbutton:hover {
+  outline: 0.1em solid transparent;
+  outline-offset: 0.2em;
+  box-shadow: 0 0 1em 0 var(--color-background);
+  animation:
+    ripple 1s linear infinite,
+    colorize 1s infinite;
+  transition: 0.5s;
+}
+
+.contbutton span {
+  margin-right: 0.3em;
+  transition: 0.5s;
+}
+
+.contbutton:hover span {
+  text-shadow: 5px 5px 5px var(--color-shadow);
+}
+
+.contbutton:active span {
+  text-shadow: none;
+}
+
+.contbutton svg {
+  height: 0.8em;
+  fill: var(--color-text);
+  margin-right: -0.16em;
+  position: relative;
+  transition: 0.5s;
+}
+
+.contbutton:hover svg {
+  margin-right: 0.66em;
+  transition: 0.5s;
+  filter: drop-shadow(5px 5px 2.5px var(--color-shadow));
+}
+
+.contbutton:active svg {
+  filter: none;
+}
+
+.contbutton svg polygon:nth-child(1) {
+  transition: 0.4s;
+  transform: translateX(-60%);
+}
+
+.contbutton svg polygon:nth-child(2) {
+  transition: 0.5s;
+  transform: translateX(-30%);
+}
+
+.contbutton:hover svg polygon:nth-child(1) {
+  transform: translateX(0%);
+  animation: opacity 1s infinite 0.6s;
+}
+
+.contbutton:hover svg polygon:nth-child(2) {
+  transform: translateX(0%);
+  animation: opacity 1s infinite 0.4s;
+}
+
+.contbutton:hover svg polygon:nth-child(3) {
+  animation: opacity 1s infinite 0.2s;
+}
+
+@keyframes opacity {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes colorize {
+  0% {
+    background: var(--color-background);
+  }
+  50% {
+    background: var(--color-background-hover);
+  }
+  100% {
+    background: var(--color-background);
+  }
+}
+
+@keyframes ripple {
+  0% {
+    outline: 0em solid transparent;
+    outline-offset: -0.1em;
+  }
+  50% {
+    outline: 0.2em solid var(--color-outline);
+    outline-offset: 0.2em;
+  }
+  100% {
+    outline: 0.4em solid transparent;
+    outline-offset: 0.4em;
+  }
+}
+
+[hidden] {
+  display: none !important;
+}
+
+.button-with-icon {
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid #fca311;
+  font-family: "Istok Web", sans-serif;
+  letter-spacing: 1px;
+  padding: 0 12px;
+  text-align: center;
+  width: 120px;
+  height: 40px;
+  font-size: 14px;
+  text-transform: uppercase;
+  font-weight: normal;
+  border-radius: 30px;
+  outline: none;
+  user-select: none;
+  cursor: pointer;
+  transform: translateY(0px);
+  position: relative;
+  box-shadow:
+    inset 0 30px 30px -15px rgba(255, 255, 255, 0.1),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.3),
+    inset 0 1px 20px rgba(0, 0, 0, 0),
+    0 3px 0 #bc780b,
+    0 3px 2px rgba(0, 0, 0, 0.2),
+    0 5px 10px rgba(0, 0, 0, 0.1),
+    0 10px 20px rgba(0, 0, 0, 0.1);
+  background: #fca311;
+  color: white;
+  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.3);
+  transition: 150ms all ease-in-out;
+}
+
+.button-with-icon .icon {
+  margin-right: 8px;
+  width: 24px;
+  height: 24px;
+  transition: all 0.5s ease-in-out;
+}
+
+.button-with-icon:active {
+  transform: translateY(3px);
+  box-shadow:
+    inset 0 16px 2px -15px rgba(0, 0, 0, 0),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.15),
+    inset 0 1px 20px rgba(0, 0, 0, 0.1),
+    0 0 0 #fca311,
+    0 0 0 2px rgba(255, 255, 255, 0.5),
+    0 0 0 rgba(0, 0, 0, 0),
+    0 0 0 rgba(0, 0, 0, 0);
+}
+
+.button-with-icon:hover .text {
+  transform: translateX(80px);
+}
+.button-with-icon:hover .icon {
+  transform: translate(23px);
+}
+
+.text {
+  transition: all 0.5s ease-in-out;
+}
+
