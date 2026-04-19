@@ -15,7 +15,7 @@ html, body{
     width: 100%;
     /* background-color: #101a30; */
     /* background: linear-gradient(to bottom right, #001e3a, #000428); */
-    background-image: url('../assets/BACKGROUND.webp');
+    background-image: url('assets/BACKGROUND.webp');
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
@@ -109,6 +109,20 @@ html, body{
     gap: 70vh;
 }
 
+@keyframes shake {
+  0% { transform: rotate(0deg); }
+  25% { transform: rotate(10deg); }
+  50% { transform: rotate(-10deg); }
+  75% { transform: rotate(10deg); }
+  100% { transform: rotate(0deg); }
+}
+
+.shake {
+  animation: shake 0.5s infinite;
+}
+.flip {
+  transform: scaleX(-1);
+}
 
 #oppo img{
     transform: scalex(-1);

@@ -74,82 +74,137 @@ let player_score = 0;
 let oppo_score = 0;
 let player = "";
 let result = "";
-//btn click effect----
 const playerimage = document.querySelector("#playerimage");
+const id_oppo = document.querySelector("#oppo"); // to rotate the oppo image while shake
+//btn click effect----
 rockbtn.addEventListener("click", () => {
+    action.toggleAttribute("hidden");
     playerimage.setAttribute("src", "assets/rock.png");
-    const computer = computerChoise();
-    computerImage(computer);
-    action.hidden = true;
+    oppoimage.setAttribute("src", "assets/rock.png");
+        // Start shaking both images
+    playerimage.classList.add("shake");
+    oppo.classList.add("flip"); // make the image rotate while shaking
+    oppoimage.classList.add("shake");
 
-    //score system ---
-    player = "rock";
-    if (player === computer){
-        result = "draw";
-        console.log(result);
-    }
-    else if (computer === "paper"){
-        result = "lose";
-        oppo_score += 1;
-        console.log(result);
-        oppoScore.textContent = oppo_score;
-    }
-    else {
-        result = "win";
-        player_score += 1;
-        console.log(result);
-        playerScore.textContent = player_score;
-    }
+    // After 1.5 sec, stop shaking and show result
+    setTimeout(() => {
+        playerimage.classList.remove("shake");
+        oppo.classList.remove("flip"); // make the image rotate while shaking
+        oppoimage.classList.remove("shake");
+
+        // Now set images AFTER delay
+        playerimage.setAttribute("src", "assets/rock.png");
+
+        const computer = computerChoise();
+        computerImage(computer);
+
+        //score system ---
+        player = "rock";
+        if (player === computer){
+            result = "draw";
+            console.log(result);
+        }
+        else if (computer === "paper"){
+            result = "lose";
+            oppo_score += 1;
+            console.log(result);
+            oppoScore.textContent = oppo_score;
+        }
+        else {
+            result = "win";
+            player_score += 1;
+            console.log(result);
+            playerScore.textContent = player_score;
+        }
+    }, 1500);
+    
+    
 })
 paperbtn.addEventListener("click", () => {
-    playerimage.setAttribute("src", "assets/paper.png");
-    const computer = computerChoise()
-    computerImage(computer);
     action.toggleAttribute("hidden");
+    playerimage.setAttribute("src", "assets/rock.png");
+    oppoimage.setAttribute("src", "assets/rock.png");
+        // Start shaking both images
+    playerimage.classList.add("shake");
+    oppo.classList.add("flip"); // make the image rotate while shaking
+    oppoimage.classList.add("shake");
 
-    //score system ---
-    player = "paper";
-    if (player === computer){
-        result = "draw";
-        console.log(result);
-    }
-    else if (computer === "scissor"){
-        result = "lose";
-        oppo_score += 1;
-        console.log(result);
-        oppoScore.textContent = oppo_score;
-    }
-    else {
-        result = "win";
-        player_score += 1;
-        console.log(result);
-        playerScore.textContent = player_score;
-    }
+    // After 1.5 sec, stop shaking and show result
+    setTimeout(() => {
+        playerimage.classList.remove("shake");
+        oppo.classList.remove("flip"); // make the image rotate while shaking
+        oppoimage.classList.remove("shake");
+
+        // Now set images AFTER delay
+        playerimage.setAttribute("src", "assets/paper.png");
+
+        const computer = computerChoise();
+        computerImage(computer);
+
+            //score system ---
+        player = "paper";
+        if (player === computer){
+            result = "draw";
+            console.log(result);
+        }
+        else if (computer === "scissor"){
+            result = "lose";
+            oppo_score += 1;
+            console.log(result);
+            oppoScore.textContent = oppo_score;
+        }
+        else {
+            result = "win";
+            player_score += 1;
+            console.log(result);
+            playerScore.textContent = player_score;
+        }
+    }, 1500);
+
+
 })
 scissorbtn.addEventListener("click", () => {
-    playerimage.setAttribute("src", "assets/scissor.png");
-    const computer = computerChoise()
-    computerImage(computer);
     action.toggleAttribute("hidden");
+    playerimage.setAttribute("src", "assets/rock.png");
+    oppoimage.setAttribute("src", "assets/rock.png");
+        // Start shaking both images
+    playerimage.classList.add("shake");
+    oppo.classList.add("flip"); // make the image rotate while shaking
+    oppoimage.classList.add("shake");
 
-    //score system ---
-    player = "scissor";
-    if (player === computer){
-        result = "draw";
-        console.log(result);
-    }
-    else if (computer === "rock"){
-        result = "lose";
-        oppo_score += 1;
-        console.log(result);
-        oppoScore.textContent = oppo_score;
-    }
-    else {
-        result = "win";
-        player_score += 1;
-        console.log(result);
-        playerScore.textContent = player_score;
-    }
+    // After 1.5 sec, stop shaking and show result
+    setTimeout(() => {
+        playerimage.classList.remove("shake");
+        oppo.classList.remove("flip"); // make the image rotate while shaking
+        oppoimage.classList.remove("shake");
+
+        // Now set images AFTER delay
+        playerimage.setAttribute("src", "assets/scissor.png");
+
+        const computer = computerChoise();
+        computerImage(computer);
+
+        //score system ---
+        player = "scissor";
+        if (player === computer){
+            result = "draw";
+            console.log(result);
+        }
+        else if (computer === "rock"){
+            result = "lose";
+            oppo_score += 1;
+            console.log(result);
+            oppoScore.textContent = oppo_score;
+        }
+        else {
+            result = "win";
+            player_score += 1;
+            console.log(result);
+            playerScore.textContent = player_score;
+        }
+    }, 1500);
+
+
 })
 //hover effect ------
 rockbtn.addEventListener("mouseenter", () => {
