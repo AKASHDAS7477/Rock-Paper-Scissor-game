@@ -1,0 +1,18 @@
+@font-face {
+    font-family: "lucky";
+    src: url(fonts/Luckywish\ Regular.otf);
+}
+
+#massage {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding-top: 14px;
+}
+
+#massage h1{
+    color: rgba(169, 169, 169, 0.856);
+    font-size: 20px;
+    font-family: "lucky";
+    letter-spacing: 4px;
+}

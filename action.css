@@ -46,6 +46,7 @@ html, body{
 }
 #contents #title h1 {
     font-family: 'Grow';
+    font-weight: 300;
 }
 #contents #img{
     display: flex;

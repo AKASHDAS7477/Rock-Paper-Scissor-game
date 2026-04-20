@@ -21,6 +21,13 @@ homeIcon.addEventListener("click", function(){
     main.removeAttribute("hidden");
     playIcon.style.color = "white";
     homeIcon.style.color = "#fca311";
+    massage.style.color = "rgba(169, 169, 169, 0.856)"
+    massage.style.fontSize = "20px";
+    massage.textContent = "lets try your luck... :)"
+    oppo_score = 0;
+    oppoScore.textContent = oppo_score;
+    player_score =0;
+    playerScore.textContent = player_score;
 })
 
 
@@ -30,10 +37,12 @@ const endbtn = document.querySelector("#endbtn");
 const continuebtn = document.querySelector("#contbtn");
 const action = document.querySelector("#action");
 const backbtn = document.querySelector("#backbtn");
+const massage = document.querySelector("#massagetext");
 startbtn.addEventListener("click", function(){
     startbtn.setAttribute("hidden", "true");
     endbtn.removeAttribute("hidden");
     continuebtn.removeAttribute("hidden");
+    massage.textContent = "Now choose your option...."; 
 })
 
 
@@ -68,6 +77,8 @@ computerImage = (computerChoise) => {
     }
 }
 
+
+
 let playerScore = document.querySelector("#playerScore");
 let oppoScore = document.querySelector("#oppoScore");
 let player_score = 0;
@@ -76,6 +87,22 @@ let player = "";
 let result = "";
 const playerimage = document.querySelector("#playerimage");
 const id_oppo = document.querySelector("#oppo"); // to rotate the oppo image while shake
+
+show = (r) => {
+    massage.style.fontSize = "20px";
+    if (r === "win"){
+        massage.style.color = "#53fc11e2"
+        massage.textContent = ("Yehh you won.. :)");
+    }
+    else if (r === "lose"){
+        massage.style.color = "#ff1818e7"
+        massage.textContent = ("Ohh you lose.. :(");
+    }
+    else {
+        massage.textContent = ("Ohhh its a draw.. :|");
+    }
+}
+
 //btn click effect----
 rockbtn.addEventListener("click", () => {
     action.toggleAttribute("hidden");
@@ -85,6 +112,10 @@ rockbtn.addEventListener("click", () => {
     playerimage.classList.add("shake");
     oppo.classList.add("flip"); // make the image rotate while shaking
     oppoimage.classList.add("shake");
+    
+    massage.style.color = "rgba(169, 169, 169, 0.856)"
+    massage.style.fontSize = "30px";
+    massage.textContent = ("...");
 
     // After 1.5 sec, stop shaking and show result
     setTimeout(() => {
@@ -102,19 +133,19 @@ rockbtn.addEventListener("click", () => {
         player = "rock";
         if (player === computer){
             result = "draw";
-            console.log(result);
+            show(result);
         }
         else if (computer === "paper"){
             result = "lose";
             oppo_score += 1;
-            console.log(result);
             oppoScore.textContent = oppo_score;
+            show(result);
         }
         else {
             result = "win";
             player_score += 1;
-            console.log(result);
             playerScore.textContent = player_score;
+            show(result);
         }
     }, 1500);
     
@@ -128,6 +159,9 @@ paperbtn.addEventListener("click", () => {
     playerimage.classList.add("shake");
     oppo.classList.add("flip"); // make the image rotate while shaking
     oppoimage.classList.add("shake");
+    massage.style.color = "rgba(169, 169, 169, 0.856)"
+    massage.style.fontSize = "30px";
+    massage.textContent = ("...");
 
     // After 1.5 sec, stop shaking and show result
     setTimeout(() => {
@@ -145,18 +179,18 @@ paperbtn.addEventListener("click", () => {
         player = "paper";
         if (player === computer){
             result = "draw";
-            console.log(result);
+            show(result);
         }
         else if (computer === "scissor"){
             result = "lose";
             oppo_score += 1;
-            console.log(result);
+            show(result);
             oppoScore.textContent = oppo_score;
         }
         else {
             result = "win";
             player_score += 1;
-            console.log(result);
+            show(result);
             playerScore.textContent = player_score;
         }
     }, 1500);
@@ -171,6 +205,9 @@ scissorbtn.addEventListener("click", () => {
     playerimage.classList.add("shake");
     oppo.classList.add("flip"); // make the image rotate while shaking
     oppoimage.classList.add("shake");
+    massage.style.color = "rgba(169, 169, 169, 0.856)"
+    massage.style.fontSize = "30px";
+    massage.textContent = ("...");
 
     // After 1.5 sec, stop shaking and show result
     setTimeout(() => {
@@ -188,18 +225,18 @@ scissorbtn.addEventListener("click", () => {
         player = "scissor";
         if (player === computer){
             result = "draw";
-            console.log(result);
+            show(result);
         }
         else if (computer === "rock"){
             result = "lose";
             oppo_score += 1;
-            console.log(result);
+            show(result);
             oppoScore.textContent = oppo_score;
         }
         else {
             result = "win";
             player_score += 1;
-            console.log(result);
+            show(result);
             playerScore.textContent = player_score;
         }
     }, 1500);
@@ -248,4 +285,7 @@ endbtn.addEventListener("click", function(){
     oppoScore.textContent = oppo_score;
     player_score =0;
     playerScore.textContent = player_score;
+    massage.style.color = "rgba(169, 169, 169, 0.856)"
+    massage.style.fontSize = "20px";
+    massage.textContent = "lets try your luck... :)"
 })
