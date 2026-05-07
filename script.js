@@ -1,291 +1,222 @@
-const main = document.querySelector("main");
-const rpsgame = document.querySelector("#rpsgame")
-const playbtn = document.querySelector("#playbtn");
-const homeIcon = document.querySelector("#home");
-const playIcon = document.querySelector("#play");
-playbtn.addEventListener ("click", function(){
-    main.toggleAttribute("hidden", "true");
-    rpsgame.toggleAttribute("hidden");
-    playIcon.style.color = "#fca311";
-    homeIcon.style.color = "white";
-})
+// ─── ELEMENTS ───────────────────────────────────────────────────────────────
+const landing       = document.querySelector("#landing");
+const rpsgame       = document.querySelector("#rpsgame");
+const playbtn       = document.querySelector("#playbtn");
+const homeNav       = document.querySelector("#homeNav");
+const playNav       = document.querySelector("#playNav");
 
-playIcon.addEventListener ("click", function(){
-    main.setAttribute("hidden", "true");
-    rpsgame.removeAttribute("hidden");
-    playIcon.style.color = "#fca311";
-    homeIcon.style.color = "white";
-})
-homeIcon.addEventListener("click", function(){
-    rpsgame.setAttribute("hidden", "true");
-    main.removeAttribute("hidden");
-    playIcon.style.color = "white";
-    homeIcon.style.color = "#fca311";
-    massage.style.color = "rgba(169, 169, 169, 0.856)"
-    massage.style.fontSize = "20px";
-    massage.textContent = "lets try your luck... :)"
-    oppo_score = 0;
-    oppoScore.textContent = oppo_score;
-    player_score =0;
-    playerScore.textContent = player_score;
-})
+const startbtn      = document.querySelector("#startbtn");
+const endbtn        = document.querySelector("#endbtn");
+const contbtn       = document.querySelector("#contbtn");
+const action        = document.querySelector("#action");
+const backbtn       = document.querySelector("#backbtn");
+const massagetext   = document.querySelector("#massagetext");
 
+const rockbtn       = document.querySelector("#rockbtn");
+const paperbtn      = document.querySelector("#paperbtn");
+const scissorbtn    = document.querySelector("#scissorbtn");
 
-//game start -----
-const startbtn = document.querySelector("#startbtn");
-const endbtn = document.querySelector("#endbtn");
-const continuebtn = document.querySelector("#contbtn");
-const action = document.querySelector("#action");
-const backbtn = document.querySelector("#backbtn");
-const massage = document.querySelector("#massagetext");
-startbtn.addEventListener("click", function(){
-    startbtn.setAttribute("hidden", "true");
-    endbtn.removeAttribute("hidden");
-    continuebtn.removeAttribute("hidden");
-    massage.textContent = "Now choose your option...."; 
-})
+const playerimage   = document.querySelector("#playerimage");
+const oppoimage     = document.querySelector("#oppoimage");
+const playerArena   = document.querySelector("#playerArena");
+const oppoArena     = document.querySelector("#oppoArena");
+const playerScoreEl = document.querySelector("#playerScore");
+const oppoScoreEl   = document.querySelector("#oppoScore");
+const playerScoreBox= document.querySelector("#playerScoreBox");
+const oppoScoreBox  = document.querySelector("#oppoScoreBox");
 
+// ─── STATE ───────────────────────────────────────────────────────────────────
+let playerScore = 0;
+let oppoScore   = 0;
+let gameActive  = false;
 
-continuebtn.addEventListener("click", function(){
-    action.hidden = false;
-})
-
-backbtn.addEventListener("click", function(){
-    action.toggleAttribute("hidden");
-})
-
-const rockbtn = document.querySelector("#rockbtn");
-const paperbtn = document.querySelector("#paperbtn");
-const scissorbtn = document.querySelector("#scissorbtn");
-const oppoimage = document.querySelector("#oppoimage");
-
-computerChoise = () => {
-    const choise = ["rock","paper","scissor"];
-    const randomIndex = Math.floor(Math.random() * 3);
-    return choise[randomIndex];
+// ─── HELPERS ─────────────────────────────────────────────────────────────────
+function show(screen) {
+  if (screen === "game") {
+    landing.classList.add("hidden");
+    rpsgame.classList.remove("hidden");
+    rpsgame.classList.add("flex");
+  } else {
+    rpsgame.classList.add("hidden");
+    rpsgame.classList.remove("flex");
+    landing.classList.remove("hidden");
+  }
 }
 
-computerImage = (computerChoise) => {
-    if (computerChoise == "rock"){
-        oppoimage.setAttribute("src", "assets/rock.png");
-    }
-    else if (computerChoise == "paper"){
-        oppoimage.setAttribute("src", "assets/paper.png");
-    }
-    else {
-        oppoimage.setAttribute("src", "assets/scissor.png");
-    }
+function showOverlay() {
+  action.classList.remove("hidden");
+  action.classList.add("flex");
+}
+function hideOverlay() {
+  action.classList.add("hidden");
+  action.classList.remove("flex");
 }
 
+function setMessage(text, color = "neutral") {
+  massagetext.classList.remove("animate-blink", "result-anim");
+  void massagetext.offsetWidth; // reflow to restart animation
 
+  const colorMap = {
+    win:     "#C8FF00",
+    lose:    "#FF4444",
+    neutral: "rgba(255,255,255,0.4)",
+    waiting: "rgba(255,255,255,0.4)",
+  };
+  massagetext.style.color = colorMap[color] || colorMap.neutral;
+  massagetext.textContent = text;
 
-let playerScore = document.querySelector("#playerScore");
-let oppoScore = document.querySelector("#oppoScore");
-let player_score = 0;
-let oppo_score = 0;
-let player = "";
-let result = "";
-const playerimage = document.querySelector("#playerimage");
-const id_oppo = document.querySelector("#oppo"); // to rotate the oppo image while shake
-
-show = (r) => {
-    massage.style.fontSize = "20px";
-    if (r === "win"){
-        massage.style.color = "#53fc11e2"
-        massage.textContent = ("Yehh you won.. :)");
-    }
-    else if (r === "lose"){
-        massage.style.color = "#ff1818e7"
-        massage.textContent = ("Ohh you lose.. :(");
-    }
-    else {
-        massage.textContent = ("Ohhh its a draw.. :|");
-    }
+  if (color === "win" || color === "lose") {
+    massagetext.classList.add("result-anim");
+  } else if (color === "waiting") {
+    massagetext.classList.add("animate-blink");
+  }
 }
 
-//btn click effect----
-rockbtn.addEventListener("click", () => {
-    action.toggleAttribute("hidden");
-    playerimage.setAttribute("src", "assets/rock.png");
-    oppoimage.setAttribute("src", "assets/rock.png");
-        // Start shaking both images
-    playerimage.classList.add("shake");
-    oppo.classList.add("flip"); // make the image rotate while shaking
-    oppoimage.classList.add("shake");
-    
-    massage.style.color = "rgba(169, 169, 169, 0.856)"
-    massage.style.fontSize = "30px";
-    massage.textContent = ("...");
+function resetArenaStyles() {
+  playerArena.classList.remove("win","lose");
+  oppoArena.classList.remove("win","lose");
+  playerScoreBox.classList.remove("win","lose");
+  oppoScoreBox.classList.remove("win","lose");
+}
 
-    // After 1.5 sec, stop shaking and show result
-    setTimeout(() => {
-        playerimage.classList.remove("shake");
-        oppo.classList.remove("flip"); // make the image rotate while shaking
-        oppoimage.classList.remove("shake");
+function flashResult(result) {
+  resetArenaStyles();
+  if (result === "win") {
+    playerArena.classList.add("win");
+    oppoArena.classList.add("lose");
+    playerScoreBox.classList.add("win");
+    oppoScoreBox.classList.add("lose");
+  } else if (result === "lose") {
+    playerArena.classList.add("lose");
+    oppoArena.classList.add("win");
+    playerScoreBox.classList.add("lose");
+    oppoScoreBox.classList.add("win");
+  }
+  // clear after 1.8s
+  setTimeout(resetArenaStyles, 1800);
+}
 
-        // Now set images AFTER delay
-        playerimage.setAttribute("src", "assets/rock.png");
+function computerChoice() {
+  const choices = ["rock", "paper", "scissor"];
+  return choices[Math.floor(Math.random() * 3)];
+}
 
-        const computer = computerChoise();
-        computerImage(computer);
+function getImageSrc(choice) {
+  const map = {
+    rock:    "assets/rock.png",
+    paper:   "assets/paper.png",
+    scissor: "assets/scissor.png",
+  };
+  return map[choice];
+}
 
-        //score system ---
-        player = "rock";
-        if (player === computer){
-            result = "draw";
-            show(result);
-        }
-        else if (computer === "paper"){
-            result = "lose";
-            oppo_score += 1;
-            oppoScore.textContent = oppo_score;
-            show(result);
-        }
-        else {
-            result = "win";
-            player_score += 1;
-            playerScore.textContent = player_score;
-            show(result);
-        }
-    }, 1500);
-    
-    
-})
-paperbtn.addEventListener("click", () => {
-    action.toggleAttribute("hidden");
-    playerimage.setAttribute("src", "assets/rock.png");
-    oppoimage.setAttribute("src", "assets/rock.png");
-        // Start shaking both images
-    playerimage.classList.add("shake");
-    oppo.classList.add("flip"); // make the image rotate while shaking
-    oppoimage.classList.add("shake");
-    massage.style.color = "rgba(169, 169, 169, 0.856)"
-    massage.style.fontSize = "30px";
-    massage.textContent = ("...");
+function determineResult(player, computer) {
+  if (player === computer) return "draw";
+  if (
+    (player === "rock"    && computer === "scissor") ||
+    (player === "paper"   && computer === "rock")    ||
+    (player === "scissor" && computer === "paper")
+  ) return "win";
+  return "lose";
+}
 
-    // After 1.5 sec, stop shaking and show result
-    setTimeout(() => {
-        playerimage.classList.remove("shake");
-        oppo.classList.remove("flip"); // make the image rotate while shaking
-        oppoimage.classList.remove("shake");
+function resetGame() {
+  playerScore = 0;
+  oppoScore   = 0;
+  playerScoreEl.textContent = "0";
+  oppoScoreEl.textContent   = "0";
+  playerimage.src = "assets/rock.png";
+  oppoimage.src   = "assets/rock.png";
+  setMessage("let's try your luck... :)", "waiting");
+  resetArenaStyles();
+}
 
-        // Now set images AFTER delay
-        playerimage.setAttribute("src", "assets/paper.png");
+// ─── PLAY CHOICE ─────────────────────────────────────────────────────────────
+function playRound(playerPick) {
+  if (!gameActive) return;
 
-        const computer = computerChoise();
-        computerImage(computer);
+  hideOverlay();
 
-            //score system ---
-        player = "paper";
-        if (player === computer){
-            result = "draw";
-            show(result);
-        }
-        else if (computer === "scissor"){
-            result = "lose";
-            oppo_score += 1;
-            show(result);
-            oppoScore.textContent = oppo_score;
-        }
-        else {
-            result = "win";
-            player_score += 1;
-            show(result);
-            playerScore.textContent = player_score;
-        }
-    }, 1500);
+  // Show rock (fist) while shaking = "countdown"
+  playerimage.src = "assets/rock.png";
+  oppoimage.src   = "assets/rock.png";
 
+  playerimage.classList.add("shaking");
+  oppoimage.classList.add("shaking", "flipping");
 
-})
-scissorbtn.addEventListener("click", () => {
-    action.toggleAttribute("hidden");
-    playerimage.setAttribute("src", "assets/rock.png");
-    oppoimage.setAttribute("src", "assets/rock.png");
-        // Start shaking both images
-    playerimage.classList.add("shake");
-    oppo.classList.add("flip"); // make the image rotate while shaking
-    oppoimage.classList.add("shake");
-    massage.style.color = "rgba(169, 169, 169, 0.856)"
-    massage.style.fontSize = "30px";
-    massage.textContent = ("...");
+  setMessage("...", "waiting");
 
-    // After 1.5 sec, stop shaking and show result
-    setTimeout(() => {
-        playerimage.classList.remove("shake");
-        oppo.classList.remove("flip"); // make the image rotate while shaking
-        oppoimage.classList.remove("shake");
+  setTimeout(() => {
+    // Stop animations
+    playerimage.classList.remove("shaking");
+    oppoimage.classList.remove("shaking", "flipping");
 
-        // Now set images AFTER delay
-        playerimage.setAttribute("src", "assets/scissor.png");
+    const computer = computerChoice();
+    playerimage.src = getImageSrc(playerPick);
+    oppoimage.src   = getImageSrc(computer);
 
-        const computer = computerChoise();
-        computerImage(computer);
+    const result = determineResult(playerPick, computer);
 
-        //score system ---
-        player = "scissor";
-        if (player === computer){
-            result = "draw";
-            show(result);
-        }
-        else if (computer === "rock"){
-            result = "lose";
-            oppo_score += 1;
-            show(result);
-            oppoScore.textContent = oppo_score;
-        }
-        else {
-            result = "win";
-            player_score += 1;
-            show(result);
-            playerScore.textContent = player_score;
-        }
-    }, 1500);
+    if (result === "win") {
+      playerScore++;
+      playerScoreEl.textContent = playerScore;
+      setMessage("Yeah! You won 🎉", "win");
+    } else if (result === "lose") {
+      oppoScore++;
+      oppoScoreEl.textContent = oppoScore;
+      setMessage("Ohh you lost 💀", "lose");
+    } else {
+      setMessage("It's a draw 🤝", "neutral");
+    }
 
+    flashResult(result);
+  }, 1200);
+}
 
-})
-//hover effect ------
-rockbtn.addEventListener("mouseenter", () => {
-    rockbtn.style.transform = "scale(120%)";
-    paperbtn.style.transform = "scale(80%)";
-    scissorbtn.style.transform = "scale(80%)";
-})
-rockbtn.addEventListener("mouseout", () => {
-    rockbtn.style.transform = "scale(100%)";
-    paperbtn.style.transform = "scale(100%)";
-    scissorbtn.style.transform = "scale(100%)";
-})
-paperbtn.addEventListener("mouseenter", () => {
-    rockbtn.style.transform = "scale(80%)";
-    paperbtn.style.transform = "scale(120%)";
-    scissorbtn.style.transform = "scale(80%)";
-})
-paperbtn.addEventListener("mouseout", () => {
-    rockbtn.style.transform = "scale(100%)";
-    paperbtn.style.transform = "scale(100%)";
-    scissorbtn.style.transform = "scale(100%)";
-})
-scissorbtn.addEventListener("mouseenter", () => {
-    rockbtn.style.transform = "scale(80%)";
-    paperbtn.style.transform = "scale(80%)";
-    scissorbtn.style.transform = "scale(120%)";
-})
-scissorbtn.addEventListener("mouseout", () => {
-    rockbtn.style.transform = "scale(100%)";
-    paperbtn.style.transform = "scale(100%)";
-    scissorbtn.style.transform = "scale(100%)";
-})
+// ─── NAV ─────────────────────────────────────────────────────────────────────
+playbtn.addEventListener("click", () => show("game"));
+playNav.addEventListener("click", () => show("game"));
+homeNav.addEventListener("click", () => {
+  show("landing");
+  gameActive = false;
+  resetGame();
+  // reset buttons
+  startbtn.classList.remove("hidden");
+  endbtn.classList.add("hidden");
+  contbtn.classList.add("hidden");
+});
 
-endbtn.addEventListener("click", function(){
-    startbtn.toggleAttribute("hidden");
-    endbtn.toggleAttribute("hidden");
-    continuebtn.toggleAttribute("hidden");
-    oppoimage.setAttribute("src", "assets/rock.png");
-    playerimage.setAttribute("src", "assets/rock.png");
-    oppo_score = 0;
-    oppoScore.textContent = oppo_score;
-    player_score =0;
-    playerScore.textContent = player_score;
-    massage.style.color = "rgba(169, 169, 169, 0.856)"
-    massage.style.fontSize = "20px";
-    massage.textContent = "lets try your luck... :)"
-})
+// ─── GAME CONTROLS ───────────────────────────────────────────────────────────
+startbtn.addEventListener("click", () => {
+  gameActive = true;
+  startbtn.classList.add("hidden");
+  endbtn.classList.remove("hidden");
+  contbtn.classList.remove("hidden");
+  setMessage("Now choose your move →", "waiting");
+});
+
+contbtn.addEventListener("click", () => {
+  if (!gameActive) return;
+  showOverlay();
+});
+
+backbtn.addEventListener("click", () => hideOverlay());
+
+endbtn.addEventListener("click", () => {
+  gameActive = false;
+  startbtn.classList.remove("hidden");
+  endbtn.classList.add("hidden");
+  contbtn.classList.add("hidden");
+  hideOverlay();
+  resetGame();
+});
+
+// ─── CHOICE BUTTONS ──────────────────────────────────────────────────────────
+rockbtn.addEventListener("click",    () => playRound("rock"));
+paperbtn.addEventListener("click",   () => playRound("paper"));
+scissorbtn.addEventListener("click", () => playRound("scissor"));
+
+// Also allow clicking the parent wrap (bigger tap area on mobile)
+rockbtn.closest(".choice-wrap").addEventListener("click",    () => playRound("rock"));
+paperbtn.closest(".choice-wrap").addEventListener("click",   () => playRound("paper"));
+scissorbtn.closest(".choice-wrap").addEventListener("click", () => playRound("scissor"));
