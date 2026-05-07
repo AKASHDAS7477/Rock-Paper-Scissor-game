@@ -4,123 +4,236 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>PlayORbit</title>
-    <link
-      href="https://cdn.jsdelivr.net/npm/remixicon@4.9.0/fonts/remixicon.css"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="style.css" />
-    <link rel="stylesheet" href="rpsGame.css" />
-    <link rel="stylesheet" href="action.css" />
-    <link rel="stylesheet" href="massage.css" />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;700;800&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet"/>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              syne: ['Syne', 'sans-serif'],
+              mono: ['Space Mono', 'monospace'],
+            },
+            colors: {
+              acid: '#C8FF00',
+              dark: '#0A0A0A',
+              muted: '#1A1A1A',
+              border: '#2A2A2A',
+            },
+            keyframes: {
+              fadeUp: { '0%': { opacity: '0', transform: 'translateY(24px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } },
+              pulse2: { '0%,100%': { opacity: '1' }, '50%': { opacity: '0.4' } },
+              slideIn: { '0%': { transform: 'scaleX(0)' }, '100%': { transform: 'scaleX(1)' } },
+              spin3d: { '0%': { transform: 'rotate(0deg)' }, '100%': { transform: 'rotate(360deg)' } },
+              shake: { '0%,100%': { transform: 'translateX(0)' }, '20%': { transform: 'translateX(-8px) rotate(-3deg)' }, '40%': { transform: 'translateX(8px) rotate(3deg)' }, '60%': { transform: 'translateX(-5px)' }, '80%': { transform: 'translateX(5px)' } },
+              flicker: { '0%,100%': { opacity:'1' }, '50%': { opacity:'0.6' } },
+            },
+            animation: {
+              fadeUp: 'fadeUp 0.6s ease forwards',
+              pulse2: 'pulse2 2s ease-in-out infinite',
+              spin3d: 'spin3d 8s linear infinite',
+              shake: 'shake 0.5s ease',
+              flicker: 'flicker 1.5s ease-in-out infinite',
+            },
+          }
+        }
+      }
+    </script>
+    <style>
+      body { background-color: #0A0A0A; }
+      .acid-glow { box-shadow: 0 0 32px #C8FF0033, 0 0 2px #C8FF0066; }
+      .acid-text-glow { text-shadow: 0 0 20px #C8FF0066; }
+      .line-anim { transform-origin: left; animation: slideIn 0.7s cubic-bezier(.77,0,.18,1) forwards; }
+      .img-card { transition: transform 0.2s ease, filter 0.2s ease; }
+      .img-card:hover { transform: scale(1.08) rotate(-2deg); filter: drop-shadow(0 0 16px #C8FF0088); }
+      .img-card:active { transform: scale(0.95); }
+      .bg-noise {
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+        background-repeat: repeat;
+        background-size: 150px;
+      }
+      .choice-img { cursor: pointer; filter: grayscale(20%); transition: all 0.18s ease; }
+      .choice-img:hover { filter: grayscale(0%) drop-shadow(0 0 18px #C8FF00cc); transform: translateY(-6px) scale(1.07); }
+      .choice-img:active { transform: scale(0.93); }
+      @keyframes countdownAnim { 0% { transform: scale(1.4); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
+      .countdown-num { animation: countdownAnim 0.4s ease forwards; }
+      .score-box { border: 1px solid #2A2A2A; transition: border-color 0.3s ease, background 0.3s ease; }
+      .score-box.winning { border-color: #C8FF00; background: #C8FF0010; }
+      .score-box.losing { border-color: #ff4444; background: #ff444410; }
+    </style>
   </head>
-  <body>
-    <header>
-      <nav>
-        <h1 id="title">PlayORbit</h1>
-        <div id="buttons">
-          <i id="home" class="ri-home-9-fill"></i>
-          <i id="play" class="ri-play-large-fill"></i>
-          <!-- <h1 id="home">Home</h1> -->
-          <!-- <h1 id="play">Play</h1> -->
+  <body class="bg-dark text-white font-syne min-h-screen bg-noise overflow-x-hidden">
+
+    <!-- NAV -->
+    <header class="fixed top-0 left-0 right-0 z-50 bg-dark/80 backdrop-blur-md border-b border-border">
+      <nav class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+        <h1 class="font-syne font-extrabold text-xl tracking-tight">
+          Play<span class="text-acid">ORbit</span>
+        </h1>
+        <div class="flex items-center gap-2">
+          <button id="homeNav" class="px-4 py-2 text-sm font-mono text-white/60 hover:text-acid transition-colors duration-200">Home</button>
+          <button id="playNav" class="px-4 py-2 text-sm font-mono bg-acid text-dark font-bold rounded hover:bg-acid/80 transition-all duration-200 acid-glow">Play</button>
         </div>
       </nav>
     </header>
-    <main>
-      <div id="video">
-        <video src="assets/mainvideo.mp4" autoplay loop muted>main video</video>
+
+    <!-- LANDING -->
+    <main id="landing" class="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
+      <!-- Decorative rings -->
+      <div class="absolute inset-0 flex items-center justify-center pointer-events-none select-none">
+        <div class="w-[600px] h-[600px] rounded-full border border-border animate-spin3d opacity-30"></div>
+        <div class="absolute w-[400px] h-[400px] rounded-full border border-border/60" style="animation: spin3d 12s linear infinite reverse; opacity:0.2;"></div>
+        <div class="absolute w-[200px] h-[200px] rounded-full border border-acid/20"></div>
       </div>
-      <div id="shade"></div>
-      <div id="content">
-        <h1 id="title">ROCK PAPER SCISSOR</h1>
-        <h1 id="about">A game where luck destroys your confidence</h1>
-        <button id="playbtn">Play now</button>
+
+      <!-- Accent dot -->
+      <div class="absolute top-1/3 right-1/4 w-2 h-2 rounded-full bg-acid animate-pulse2"></div>
+      <div class="absolute bottom-1/3 left-1/4 w-1 h-1 rounded-full bg-acid/60 animate-pulse2" style="animation-delay:0.8s"></div>
+
+      <div class="relative z-10 text-center px-6 max-w-3xl mx-auto">
+        <div class="overflow-hidden mb-4">
+          <p class="font-mono text-xs text-acid tracking-[0.3em] opacity-0 animate-fadeUp" style="animation-delay:0.1s; animation-fill-mode:forwards">GAME / 001</p>
+        </div>
+        <div class="overflow-hidden">
+          <h1 class="font-syne font-extrabold text-5xl sm:text-7xl md:text-8xl leading-none tracking-tighter opacity-0 animate-fadeUp acid-text-glow" style="animation-delay:0.25s; animation-fill-mode:forwards">
+            ROCK<br/>
+            <span class="text-acid">PAPER</span><br/>
+            SCISSOR
+          </h1>
+        </div>
+        <div class="h-px bg-acid line-anim my-6 mx-auto w-24 opacity-0" style="animation-delay:0.5s; animation-fill-mode:forwards"></div>
+        <p class="font-mono text-sm text-white/40 mb-10 opacity-0 animate-fadeUp" style="animation-delay:0.6s; animation-fill-mode:forwards">
+          A game where luck destroys your confidence.
+        </p>
+        <div class="opacity-0 animate-fadeUp" style="animation-delay:0.8s; animation-fill-mode:forwards">
+          <button id="playbtn"
+            class="group relative inline-flex items-center gap-3 bg-acid text-dark font-syne font-extrabold text-base px-8 py-4 rounded-sm acid-glow hover:scale-105 active:scale-95 transition-all duration-200">
+            <span>PLAY NOW</span>
+            <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+          </button>
+        </div>
       </div>
     </main>
 
-    <div id="rpsgame" hidden>
-      <div id="scores">
-        <div class="score" id="player_score">
-          <h1>You</h1>
-          <div class="scoreNumber" id="playerScore">0</div>
-        </div>
-        <div class="score" id="oppo_score">
-          <h1>Opponent</h1>
-          <div class="scoreNumber" id="oppoScore">0</div>
-        </div>
-      </div>
-      <div id="main">
-        <div class="img" id="player">
-          <img id="playerimage" src="assets/rock.png" />
-        </div>
-        <div class="img" id="vs">
-          <img id="vslogo" src="assets/vslogo.png">
-        </div>
-        <div class="img" id="oppo">
-          <img id="oppoimage" src="assets/rock.png" />
-        </div>
-      </div>
-      <div id="btn">
-        <button id="endbtn" hidden>End</button>
-        <!-- From Uiverse.io by Li-Deheng -->
-        <button id="contbtn" class="contbutton" hidden>
-          <span>Continue</span>
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 66 43">
-            <polygon
-              points="39.58,4.46 44.11,0 66,21.5 44.11,43 39.58,38.54 56.94,21.5"
-            ></polygon>
-            <polygon
-              points="19.79,4.46 24.32,0 46.21,21.5 24.32,43 19.79,38.54 37.15,21.5"
-            ></polygon>
-            <polygon
-              points="0,4.46 4.53,0 26.42,21.5 4.53,43 0,38.54 17.36,21.5"
-            ></polygon>
-          </svg>
-        </button>
+    <!-- GAME SCREEN -->
+    <div id="rpsgame" class="hidden min-h-screen pt-24 pb-16 px-4 flex flex-col items-center">
 
-        <!-- <button id="contbtn" hidden>Continue</button> -->
-        <!-- <button id="startbtn">Start Now</button> -->
-        <button id="startbtn" class="button-with-icon">
-          <svg
-            class="icon"
-            id="Play"
-            viewBox="0 0 48 48"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              class="color000000 svgShape"
-              fill="#ffffff"
-              d="M12 39c-.549 0-1.095-.15-1.578-.447A3.008 3.008 0 0 1 9 36V12c0-1.041.54-2.007 1.422-2.553a3.014 3.014 0 0 1 2.919-.132l24 12a3.003 3.003 0 0 1 0 5.37l-24 12c-.42.21-.885.315-1.341.315z"
-            ></path>
-          </svg>
-          <span class="text">Play</span>
-        </button>
+      <!-- Scores -->
+      <div class="w-full max-w-lg flex gap-4 mb-8">
+        <div id="playerScoreBox" class="score-box flex-1 rounded-sm p-5 text-center">
+          <p class="font-mono text-xs text-white/40 mb-2 tracking-widest">YOU</p>
+          <div id="playerScore" class="font-syne font-extrabold text-5xl text-acid">0</div>
+        </div>
+        <div class="flex items-center justify-center px-3">
+          <span class="font-mono text-xs text-white/20">VS</span>
+        </div>
+        <div id="oppoScoreBox" class="score-box flex-1 rounded-sm p-5 text-center">
+          <p class="font-mono text-xs text-white/40 mb-2 tracking-widest">OPPONENT</p>
+          <div id="oppoScore" class="font-syne font-extrabold text-5xl text-white/80">0</div>
+        </div>
       </div>
-      <div id="massage">
-        <h1 id="massagetext">lets try your luck... :)</h1>
-      </div>
-      <div id="action" hidden>
-        <div id="contents">
-          <div class="content" id="title">
-            <h1>Pick your choise....</h1>
+
+      <!-- Battle arena -->
+      <div class="w-full max-w-lg flex items-center justify-between gap-4 mb-8">
+        <div class="flex-1 flex justify-center">
+          <div class="relative">
+            <div class="w-28 h-28 sm:w-36 sm:h-36 rounded-sm border border-border flex items-center justify-center bg-muted overflow-hidden">
+              <img id="playerimage" src="assets/rock.png" alt="Player" class="w-20 h-20 sm:w-28 sm:h-28 object-contain transition-all duration-300"/>
+            </div>
+            <span class="absolute -bottom-6 left-0 right-0 text-center font-mono text-xs text-white/30">YOU</span>
           </div>
-          <div class="content" id="img">
-            <img id="rockbtn" src="assets/rock button 1.png" />
-            <img id="paperbtn" src="assets/paper button.png" />
-            <img id="scissorbtn" src="assets/scissor button.png" />
-          </div>
-          <div class="content" id="text">
-            <h1>Rock</h1>
-            <h1>paper</h1>
-            <h1>Scissor</h1>
-          </div>
-          <div id="actionbtn">
-            <button id="backbtn">Back</button>
+        </div>
+        <div class="flex flex-col items-center gap-1">
+          <div class="w-px h-8 bg-border"></div>
+          <span class="font-mono text-xs text-acid font-bold">VS</span>
+          <div class="w-px h-8 bg-border"></div>
+        </div>
+        <div class="flex-1 flex justify-center">
+          <div class="relative">
+            <div class="w-28 h-28 sm:w-36 sm:h-36 rounded-sm border border-border flex items-center justify-center bg-muted overflow-hidden" style="transform: scaleX(-1)">
+              <img id="oppoimage" src="assets/rock.png" alt="Opponent" class="w-20 h-20 sm:w-28 sm:h-28 object-contain transition-all duration-300"/>
+            </div>
+            <span class="absolute -bottom-6 left-0 right-0 text-center font-mono text-xs text-white/30" style="transform:scaleX(-1)">CPU</span>
           </div>
         </div>
       </div>
+
+      <!-- Message -->
+      <div class="mt-8 mb-6 min-h-[2.5rem] text-center">
+        <p id="massagetext" class="font-mono text-sm text-white/50 animate-flicker">let's try your luck... :)</p>
+      </div>
+
+      <!-- Main buttons -->
+      <div id="btn" class="flex items-center gap-4">
+        <button id="startbtn" class="px-8 py-3 bg-acid text-dark font-syne font-extrabold text-sm rounded-sm acid-glow hover:scale-105 active:scale-95 transition-all duration-200">
+          START
+        </button>
+        <button id="endbtn" class="hidden px-8 py-3 border border-border text-white/60 font-mono text-sm rounded-sm hover:border-white/40 hover:text-white transition-all duration-200">
+          END
+        </button>
+        <button id="contbtn" class="hidden group px-8 py-3 bg-muted border border-border text-white font-mono text-sm rounded-sm hover:border-acid hover:text-acid transition-all duration-200 flex items-center gap-2">
+          CONTINUE <span class="group-hover:translate-x-1 transition-transform">→</span>
+        </button>
+      </div>
+
+      <!-- Choice picker overlay -->
+      <div id="action" class="hidden fixed inset-0 bg-dark/95 backdrop-blur-sm z-50 flex items-center justify-center">
+        <div class="w-full max-w-md px-6 text-center">
+          <p class="font-mono text-xs text-acid tracking-widest mb-2">ROUND</p>
+          <h2 class="font-syne font-extrabold text-4xl mb-10">PICK YOUR MOVE</h2>
+
+          <div class="grid grid-cols-3 gap-4 mb-10">
+            <div class="flex flex-col items-center gap-3">
+              <img id="rockbtn" src="assets/rock button 1.png" alt="Rock" class="choice-img w-20 h-20 object-contain"/>
+              <span class="font-mono text-xs text-white/40">ROCK</span>
+            </div>
+            <div class="flex flex-col items-center gap-3">
+              <img id="paperbtn" src="assets/paper button.png" alt="Paper" class="choice-img w-20 h-20 object-contain"/>
+              <span class="font-mono text-xs text-white/40">PAPER</span>
+            </div>
+            <div class="flex flex-col items-center gap-3">
+              <img id="scissorbtn" src="assets/scissor button.png" alt="Scissor" class="choice-img w-20 h-20 object-contain"/>
+              <span class="font-mono text-xs text-white/40">SCISSOR</span>
+            </div>
+          </div>
+
+          <button id="backbtn" class="font-mono text-xs text-white/30 hover:text-acid transition-colors duration-200 underline underline-offset-4">
+            ← back
+          </button>
+        </div>
+      </div>
+
     </div>
 
-    <footer></footer>
+    <footer class="border-t border-border py-6 text-center">
+      <p class="font-mono text-xs text-white/20">PlayORbit &mdash; play at your own risk</p>
+    </footer>
+
     <script src="script.js"></script>
+    <script>
+      // Nav wiring
+      document.getElementById('homeNav').addEventListener('click', () => {
+        document.getElementById('landing').classList.remove('hidden');
+        document.getElementById('rpsgame').classList.add('hidden');
+      });
+      document.getElementById('playNav').addEventListener('click', () => {
+        document.getElementById('landing').classList.add('hidden');
+        document.getElementById('rpsgame').classList.remove('hidden');
+        document.getElementById('rpsgame').classList.add('flex');
+      });
+      document.getElementById('playbtn').addEventListener('click', () => {
+        document.getElementById('landing').classList.add('hidden');
+        document.getElementById('rpsgame').classList.remove('hidden');
+        document.getElementById('rpsgame').classList.add('flex');
+      });
+
+      // Score highlight helpers (bonus UX)
+      function flashScore(el, win) {
+        el.classList.remove('winning','losing');
+        void el.offsetWidth;
+        el.classList.add(win ? 'winning' : 'losing');
+        setTimeout(() => el.classList.remove('winning','losing'), 1200);
+      }
+    </script>
   </body>
 </html>
