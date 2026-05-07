@@ -17,223 +17,201 @@
             colors: {
               acid: '#C8FF00',
               dark: '#0A0A0A',
-              muted: '#1A1A1A',
-              border: '#2A2A2A',
+              muted: '#111111',
+              border: '#222222',
             },
             keyframes: {
-              fadeUp: { '0%': { opacity: '0', transform: 'translateY(24px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } },
-              pulse2: { '0%,100%': { opacity: '1' }, '50%': { opacity: '0.4' } },
-              slideIn: { '0%': { transform: 'scaleX(0)' }, '100%': { transform: 'scaleX(1)' } },
-              spin3d: { '0%': { transform: 'rotate(0deg)' }, '100%': { transform: 'rotate(360deg)' } },
-              shake: { '0%,100%': { transform: 'translateX(0)' }, '20%': { transform: 'translateX(-8px) rotate(-3deg)' }, '40%': { transform: 'translateX(8px) rotate(3deg)' }, '60%': { transform: 'translateX(-5px)' }, '80%': { transform: 'translateX(5px)' } },
-              flicker: { '0%,100%': { opacity:'1' }, '50%': { opacity:'0.6' } },
+              fadeUp:    { '0%': { opacity: '0', transform: 'translateY(28px)' }, '100%': { opacity: '1', transform: 'translateY(0)' } },
+              blink:     { '0%,100%': { opacity: '1' }, '50%': { opacity: '0.3' } },
+              spin3d:    { '0%': { transform: 'rotate(0deg)' }, '100%': { transform: 'rotate(360deg)' } },
+              shake:     { '0%,100%': { transform: 'translateX(0) rotate(0deg)' }, '20%': { transform: 'translateX(-10px) rotate(-5deg)' }, '40%': { transform: 'translateX(10px) rotate(5deg)' }, '60%': { transform: 'translateX(-6px) rotate(-2deg)' }, '80%': { transform: 'translateX(6px) rotate(2deg)' } },
+              flip:      { '0%,100%': { transform: 'scaleX(1)' }, '50%': { transform: 'scaleX(-1)' } },
+              slideUp:   { '0%': { transform: 'translateY(60px)', opacity: '0' }, '100%': { transform: 'translateY(0)', opacity: '1' } },
+              resultPop: { '0%': { transform: 'scale(0.5)', opacity: '0' }, '60%': { transform: 'scale(1.1)' }, '100%': { transform: 'scale(1)', opacity: '1' } },
             },
             animation: {
-              fadeUp: 'fadeUp 0.6s ease forwards',
-              pulse2: 'pulse2 2s ease-in-out infinite',
-              spin3d: 'spin3d 8s linear infinite',
-              shake: 'shake 0.5s ease',
-              flicker: 'flicker 1.5s ease-in-out infinite',
+              fadeUp:    'fadeUp 0.6s ease forwards',
+              blink:     'blink 2s ease-in-out infinite',
+              spin3d:    'spin3d 10s linear infinite',
+              spin3dR:   'spin3d 14s linear infinite reverse',
+              shake:     'shake 0.15s ease-in-out infinite',
+              flip:      'flip 0.3s ease-in-out infinite',
+              slideUp:   'slideUp 0.35s cubic-bezier(.34,1.2,.64,1) forwards',
+              resultPop: 'resultPop 0.5s cubic-bezier(.34,1.56,.64,1) forwards',
             },
           }
         }
       }
     </script>
     <style>
-      body { background-color: #0A0A0A; }
-      .acid-glow { box-shadow: 0 0 32px #C8FF0033, 0 0 2px #C8FF0066; }
-      .acid-text-glow { text-shadow: 0 0 20px #C8FF0066; }
-      .line-anim { transform-origin: left; animation: slideIn 0.7s cubic-bezier(.77,0,.18,1) forwards; }
-      .img-card { transition: transform 0.2s ease, filter 0.2s ease; }
-      .img-card:hover { transform: scale(1.08) rotate(-2deg); filter: drop-shadow(0 0 16px #C8FF0088); }
-      .img-card:active { transform: scale(0.95); }
+      * { -webkit-tap-highlight-color: transparent; }
+      body { background: #0A0A0A; }
+      .acid-glow { box-shadow: 0 0 24px #C8FF0040, 0 0 2px #C8FF0080; }
+      .acid-text { text-shadow: 0 0 24px #C8FF0066; }
       .bg-noise {
-        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-        background-repeat: repeat;
-        background-size: 150px;
+        background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");
+        background-repeat: repeat; background-size: 128px;
       }
-      .choice-img { cursor: pointer; filter: grayscale(20%); transition: all 0.18s ease; }
-      .choice-img:hover { filter: grayscale(0%) drop-shadow(0 0 18px #C8FF00cc); transform: translateY(-6px) scale(1.07); }
-      .choice-img:active { transform: scale(0.93); }
-      @keyframes countdownAnim { 0% { transform: scale(1.4); opacity: 0; } 100% { transform: scale(1); opacity: 1; } }
-      .countdown-num { animation: countdownAnim 0.4s ease forwards; }
-      .score-box { border: 1px solid #2A2A2A; transition: border-color 0.3s ease, background 0.3s ease; }
-      .score-box.winning { border-color: #C8FF00; background: #C8FF0010; }
-      .score-box.losing { border-color: #ff4444; background: #ff444410; }
+      .choice-wrap { cursor: pointer; }
+      .choice-wrap img { transition: transform 0.18s ease, filter 0.18s ease; filter: grayscale(30%) brightness(0.85); }
+      .choice-wrap:hover img  { transform: translateY(-10px) scale(1.12); filter: grayscale(0%) drop-shadow(0 0 20px #C8FF00bb) brightness(1.1); }
+      .choice-wrap:active img { transform: scale(0.88); }
+      .choices:has(.choice-wrap:hover) .choice-wrap:not(:hover) img { transform: scale(0.82); filter: grayscale(70%) brightness(0.4); }
+      .score-box { border: 1px solid #222; transition: border-color 0.4s, background 0.4s, box-shadow 0.4s; }
+      .score-box.win  { border-color: #C8FF00; background: #C8FF0012; box-shadow: 0 0 20px #C8FF0033; }
+      .score-box.lose { border-color: #FF4444; background: #FF444412; box-shadow: 0 0 20px #FF444433; }
+      .arena-card { border: 1px solid #222; background: #111; transition: border-color 0.4s, box-shadow 0.4s; }
+      .arena-card.win  { border-color: #C8FF00; box-shadow: 0 0 32px #C8FF0044; }
+      .arena-card.lose { border-color: #FF4444; box-shadow: 0 0 32px #FF444444; }
+      .shaking { animation: shake 0.15s ease-in-out infinite !important; }
+      .flipping { animation: flip 0.3s ease-in-out infinite !important; }
+      .result-anim { animation: resultPop 0.5s cubic-bezier(.34,1.56,.64,1) forwards; }
     </style>
   </head>
-  <body class="bg-dark text-white font-syne min-h-screen bg-noise overflow-x-hidden">
+  <body class="bg-dark text-white font-syne min-h-screen bg-noise overflow-x-hidden select-none">
 
     <!-- NAV -->
-    <header class="fixed top-0 left-0 right-0 z-50 bg-dark/80 backdrop-blur-md border-b border-border">
-      <nav class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-        <h1 class="font-syne font-extrabold text-xl tracking-tight">
+    <header class="fixed top-0 left-0 right-0 z-50 bg-dark/90 backdrop-blur-md border-b border-border">
+      <nav class="max-w-2xl mx-auto px-5 py-3 flex items-center justify-between">
+        <h1 class="font-syne font-extrabold text-lg tracking-tight">
           Play<span class="text-acid">ORbit</span>
         </h1>
-        <div class="flex items-center gap-2">
-          <button id="homeNav" class="px-4 py-2 text-sm font-mono text-white/60 hover:text-acid transition-colors duration-200">Home</button>
-          <button id="playNav" class="px-4 py-2 text-sm font-mono bg-acid text-dark font-bold rounded hover:bg-acid/80 transition-all duration-200 acid-glow">Play</button>
+        <div class="flex items-center gap-1">
+          <button id="homeNav" class="px-4 py-2 font-mono text-xs text-white/50 hover:text-acid transition-colors duration-200 rounded">
+            HOME
+          </button>
+          <button id="playNav" class="px-4 py-2 font-mono text-xs bg-acid text-dark font-bold rounded acid-glow hover:opacity-90 active:scale-95 transition-all duration-150">
+            PLAY
+          </button>
         </div>
       </nav>
     </header>
 
     <!-- LANDING -->
-    <main id="landing" class="relative min-h-screen flex items-center justify-center overflow-hidden pt-20">
-      <!-- Decorative rings -->
-      <div class="absolute inset-0 flex items-center justify-center pointer-events-none select-none">
-        <div class="w-[600px] h-[600px] rounded-full border border-border animate-spin3d opacity-30"></div>
-        <div class="absolute w-[400px] h-[400px] rounded-full border border-border/60" style="animation: spin3d 12s linear infinite reverse; opacity:0.2;"></div>
-        <div class="absolute w-[200px] h-[200px] rounded-full border border-acid/20"></div>
+    <main id="landing" class="relative min-h-screen flex items-center justify-center pt-16 overflow-hidden">
+      <div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+        <div class="w-[480px] h-[480px] rounded-full border border-border animate-spin3d opacity-20"></div>
+        <div class="absolute w-[320px] h-[320px] rounded-full border border-border/50 animate-spin3dR opacity-15"></div>
+        <div class="absolute w-[150px] h-[150px] rounded-full border border-acid/15"></div>
       </div>
+      <div class="absolute top-1/3 right-1/4 w-1.5 h-1.5 rounded-full bg-acid animate-blink"></div>
+      <div class="absolute bottom-1/3 left-1/3 w-1 h-1 rounded-full bg-acid/50 animate-blink" style="animation-delay:0.9s"></div>
 
-      <!-- Accent dot -->
-      <div class="absolute top-1/3 right-1/4 w-2 h-2 rounded-full bg-acid animate-pulse2"></div>
-      <div class="absolute bottom-1/3 left-1/4 w-1 h-1 rounded-full bg-acid/60 animate-pulse2" style="animation-delay:0.8s"></div>
-
-      <div class="relative z-10 text-center px-6 max-w-3xl mx-auto">
-        <div class="overflow-hidden mb-4">
-          <p class="font-mono text-xs text-acid tracking-[0.3em] opacity-0 animate-fadeUp" style="animation-delay:0.1s; animation-fill-mode:forwards">GAME / 001</p>
-        </div>
-        <div class="overflow-hidden">
-          <h1 class="font-syne font-extrabold text-5xl sm:text-7xl md:text-8xl leading-none tracking-tighter opacity-0 animate-fadeUp acid-text-glow" style="animation-delay:0.25s; animation-fill-mode:forwards">
-            ROCK<br/>
-            <span class="text-acid">PAPER</span><br/>
-            SCISSOR
-          </h1>
-        </div>
-        <div class="h-px bg-acid line-anim my-6 mx-auto w-24 opacity-0" style="animation-delay:0.5s; animation-fill-mode:forwards"></div>
-        <p class="font-mono text-sm text-white/40 mb-10 opacity-0 animate-fadeUp" style="animation-delay:0.6s; animation-fill-mode:forwards">
+      <div class="relative z-10 text-center px-6 max-w-xl mx-auto">
+        <p class="font-mono text-[10px] text-acid tracking-[0.35em] mb-4 opacity-0 animate-fadeUp" style="animation-delay:0.1s;animation-fill-mode:forwards">
+          GAME / 001 &nbsp;—&nbsp; LUCK BASED
+        </p>
+        <h1 class="font-syne font-extrabold text-6xl sm:text-8xl leading-none tracking-tighter opacity-0 animate-fadeUp acid-text" style="animation-delay:0.25s;animation-fill-mode:forwards">
+          ROCK<br/><span class="text-acid">PAPER</span><br/>SCISSOR
+        </h1>
+        <div class="h-px bg-acid w-16 mx-auto my-6 opacity-0 animate-fadeUp" style="animation-delay:0.5s;animation-fill-mode:forwards"></div>
+        <p class="font-mono text-xs text-white/35 mb-10 opacity-0 animate-fadeUp" style="animation-delay:0.6s;animation-fill-mode:forwards">
           A game where luck destroys your confidence.
         </p>
-        <div class="opacity-0 animate-fadeUp" style="animation-delay:0.8s; animation-fill-mode:forwards">
+        <div class="opacity-0 animate-fadeUp" style="animation-delay:0.8s;animation-fill-mode:forwards">
           <button id="playbtn"
-            class="group relative inline-flex items-center gap-3 bg-acid text-dark font-syne font-extrabold text-base px-8 py-4 rounded-sm acid-glow hover:scale-105 active:scale-95 transition-all duration-200">
-            <span>PLAY NOW</span>
-            <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
+            class="group inline-flex items-center gap-3 bg-acid text-dark font-syne font-extrabold text-sm px-8 py-4 rounded acid-glow hover:scale-105 active:scale-95 transition-all duration-150">
+            PLAY NOW
+            <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="currentColor" viewBox="0 0 24 24">
+              <path d="M8 5v14l11-7z"/>
+            </svg>
           </button>
         </div>
       </div>
     </main>
 
     <!-- GAME SCREEN -->
-    <div id="rpsgame" class="hidden min-h-screen pt-24 pb-16 px-4 flex flex-col items-center">
+    <div id="rpsgame" class="hidden flex-col items-center min-h-screen pt-20 pb-24 px-4">
 
       <!-- Scores -->
-      <div class="w-full max-w-lg flex gap-4 mb-8">
-        <div id="playerScoreBox" class="score-box flex-1 rounded-sm p-5 text-center">
-          <p class="font-mono text-xs text-white/40 mb-2 tracking-widest">YOU</p>
+      <div class="w-full max-w-sm flex gap-3 mb-6 mt-2">
+        <div id="playerScoreBox" class="score-box flex-1 rounded p-4 text-center">
+          <p class="font-mono text-[10px] text-white/35 mb-1 tracking-widest">YOU</p>
           <div id="playerScore" class="font-syne font-extrabold text-5xl text-acid">0</div>
         </div>
-        <div class="flex items-center justify-center px-3">
-          <span class="font-mono text-xs text-white/20">VS</span>
+        <div class="flex items-center px-2">
+          <span class="font-mono text-[10px] text-white/20">VS</span>
         </div>
-        <div id="oppoScoreBox" class="score-box flex-1 rounded-sm p-5 text-center">
-          <p class="font-mono text-xs text-white/40 mb-2 tracking-widest">OPPONENT</p>
-          <div id="oppoScore" class="font-syne font-extrabold text-5xl text-white/80">0</div>
+        <div id="oppoScoreBox" class="score-box flex-1 rounded p-4 text-center">
+          <p class="font-mono text-[10px] text-white/35 mb-1 tracking-widest">CPU</p>
+          <div id="oppoScore" class="font-syne font-extrabold text-5xl text-white/70">0</div>
         </div>
       </div>
 
-      <!-- Battle arena -->
-      <div class="w-full max-w-lg flex items-center justify-between gap-4 mb-8">
-        <div class="flex-1 flex justify-center">
-          <div class="relative">
-            <div class="w-28 h-28 sm:w-36 sm:h-36 rounded-sm border border-border flex items-center justify-center bg-muted overflow-hidden">
-              <img id="playerimage" src="assets/rock.png" alt="Player" class="w-20 h-20 sm:w-28 sm:h-28 object-contain transition-all duration-300"/>
-            </div>
-            <span class="absolute -bottom-6 left-0 right-0 text-center font-mono text-xs text-white/30">YOU</span>
-          </div>
+      <!-- Arena -->
+      <div class="w-full max-w-sm flex items-center justify-between gap-3 mb-6">
+        <div id="playerArena" class="arena-card flex-1 flex flex-col items-center justify-center rounded p-5 gap-2">
+          <img id="playerimage" src="assets/rock.png" alt="Player"
+            class="w-24 h-24 sm:w-28 sm:h-28 object-contain transition-all duration-300"/>
+          <span class="font-mono text-[10px] text-white/25 tracking-widest">YOU</span>
         </div>
-        <div class="flex flex-col items-center gap-1">
-          <div class="w-px h-8 bg-border"></div>
-          <span class="font-mono text-xs text-acid font-bold">VS</span>
-          <div class="w-px h-8 bg-border"></div>
+        <div class="flex flex-col items-center gap-1 shrink-0">
+          <div class="w-px h-6 bg-border"></div>
+          <span class="font-mono text-[10px] text-acid font-bold">VS</span>
+          <div class="w-px h-6 bg-border"></div>
         </div>
-        <div class="flex-1 flex justify-center">
-          <div class="relative">
-            <div class="w-28 h-28 sm:w-36 sm:h-36 rounded-sm border border-border flex items-center justify-center bg-muted overflow-hidden" style="transform: scaleX(-1)">
-              <img id="oppoimage" src="assets/rock.png" alt="Opponent" class="w-20 h-20 sm:w-28 sm:h-28 object-contain transition-all duration-300"/>
-            </div>
-            <span class="absolute -bottom-6 left-0 right-0 text-center font-mono text-xs text-white/30" style="transform:scaleX(-1)">CPU</span>
-          </div>
+        <div id="oppoArena" class="arena-card flex-1 flex flex-col items-center justify-center rounded p-5 gap-2">
+          <img id="oppoimage" src="assets/rock.png" alt="CPU"
+            class="w-24 h-24 sm:w-28 sm:h-28 object-contain transition-all duration-300" style="transform:scaleX(-1)"/>
+          <span class="font-mono text-[10px] text-white/25 tracking-widest">CPU</span>
         </div>
       </div>
 
       <!-- Message -->
-      <div class="mt-8 mb-6 min-h-[2.5rem] text-center">
-        <p id="massagetext" class="font-mono text-sm text-white/50 animate-flicker">let's try your luck... :)</p>
+      <div class="h-12 flex items-center justify-center mb-5">
+        <p id="massagetext" class="font-mono text-sm text-white/40 animate-blink text-center px-2 transition-all duration-300">
+          let's try your luck... :)
+        </p>
       </div>
 
-      <!-- Main buttons -->
-      <div id="btn" class="flex items-center gap-4">
-        <button id="startbtn" class="px-8 py-3 bg-acid text-dark font-syne font-extrabold text-sm rounded-sm acid-glow hover:scale-105 active:scale-95 transition-all duration-200">
-          START
+      <!-- Buttons -->
+      <div class="flex items-center gap-3 flex-wrap justify-center">
+        <button id="startbtn"
+          class="px-7 py-3 bg-acid text-dark font-syne font-extrabold text-sm rounded acid-glow hover:opacity-90 active:scale-95 transition-all duration-150">
+          START GAME
         </button>
-        <button id="endbtn" class="hidden px-8 py-3 border border-border text-white/60 font-mono text-sm rounded-sm hover:border-white/40 hover:text-white transition-all duration-200">
-          END
+        <button id="contbtn"
+          class="hidden px-7 py-3 bg-white/5 border border-border text-white font-mono text-xs rounded hover:border-acid/60 hover:text-acid active:scale-95 transition-all duration-150">
+          CHOOSE →
         </button>
-        <button id="contbtn" class="hidden group px-8 py-3 bg-muted border border-border text-white font-mono text-sm rounded-sm hover:border-acid hover:text-acid transition-all duration-200 flex items-center gap-2">
-          CONTINUE <span class="group-hover:translate-x-1 transition-transform">→</span>
+        <button id="endbtn"
+          class="hidden px-7 py-3 border border-border text-white/40 font-mono text-xs rounded hover:border-red-500/60 hover:text-red-400 active:scale-95 transition-all duration-150">
+          END GAME
         </button>
       </div>
+    </div>
 
-      <!-- Choice picker overlay -->
-      <div id="action" class="hidden fixed inset-0 bg-dark/95 backdrop-blur-sm z-50 flex items-center justify-center">
-        <div class="w-full max-w-md px-6 text-center">
-          <p class="font-mono text-xs text-acid tracking-widest mb-2">ROUND</p>
-          <h2 class="font-syne font-extrabold text-4xl mb-10">PICK YOUR MOVE</h2>
-
-          <div class="grid grid-cols-3 gap-4 mb-10">
-            <div class="flex flex-col items-center gap-3">
-              <img id="rockbtn" src="assets/rock button 1.png" alt="Rock" class="choice-img w-20 h-20 object-contain"/>
-              <span class="font-mono text-xs text-white/40">ROCK</span>
-            </div>
-            <div class="flex flex-col items-center gap-3">
-              <img id="paperbtn" src="assets/paper button.png" alt="Paper" class="choice-img w-20 h-20 object-contain"/>
-              <span class="font-mono text-xs text-white/40">PAPER</span>
-            </div>
-            <div class="flex flex-col items-center gap-3">
-              <img id="scissorbtn" src="assets/scissor button.png" alt="Scissor" class="choice-img w-20 h-20 object-contain"/>
-              <span class="font-mono text-xs text-white/40">SCISSOR</span>
-            </div>
+    <!-- CHOICE OVERLAY -->
+    <div id="action" class="hidden fixed inset-0 bg-dark/97 backdrop-blur z-50 flex flex-col items-center justify-center px-6">
+      <div class="w-full max-w-xs animate-slideUp">
+        <p class="font-mono text-[10px] text-acid tracking-[0.3em] text-center mb-1">PICK YOUR MOVE</p>
+        <h2 class="font-syne font-extrabold text-3xl text-center mb-10">WHAT'S YOUR CALL?</h2>
+        <div class="choices flex justify-between items-end gap-2 mb-10">
+          <div class="choice-wrap flex-1 flex flex-col items-center gap-3">
+            <img id="rockbtn" src="assets/rock button 1.png" alt="Rock" class="w-20 h-20 sm:w-24 sm:h-24 object-contain"/>
+            <span class="font-mono text-[10px] text-white/35 tracking-widest">ROCK</span>
           </div>
-
-          <button id="backbtn" class="font-mono text-xs text-white/30 hover:text-acid transition-colors duration-200 underline underline-offset-4">
-            ← back
+          <div class="choice-wrap flex-1 flex flex-col items-center gap-3">
+            <img id="paperbtn" src="assets/paper button.png" alt="Paper" class="w-20 h-20 sm:w-24 sm:h-24 object-contain"/>
+            <span class="font-mono text-[10px] text-white/35 tracking-widest">PAPER</span>
+          </div>
+          <div class="choice-wrap flex-1 flex flex-col items-center gap-3">
+            <img id="scissorbtn" src="assets/scissor button.png" alt="Scissor" class="w-20 h-20 sm:w-24 sm:h-24 object-contain"/>
+            <span class="font-mono text-[10px] text-white/35 tracking-widest">SCISSOR</span>
+          </div>
+        </div>
+        <div class="text-center">
+          <button id="backbtn" class="font-mono text-xs text-white/25 hover:text-acid transition-colors duration-200 underline underline-offset-4">
+            ← back out
           </button>
         </div>
       </div>
-
     </div>
 
-    <footer class="border-t border-border py-6 text-center">
-      <p class="font-mono text-xs text-white/20">PlayORbit &mdash; play at your own risk</p>
+    <footer class="fixed bottom-0 left-0 right-0 border-t border-border bg-dark/80 backdrop-blur py-3 text-center z-10">
+      <p class="font-mono text-[10px] text-white/15">PlayORbit — play at your own risk</p>
     </footer>
 
     <script src="script.js"></script>
-    <script>
-      // Nav wiring
-      document.getElementById('homeNav').addEventListener('click', () => {
-        document.getElementById('landing').classList.remove('hidden');
-        document.getElementById('rpsgame').classList.add('hidden');
-      });
-      document.getElementById('playNav').addEventListener('click', () => {
-        document.getElementById('landing').classList.add('hidden');
-        document.getElementById('rpsgame').classList.remove('hidden');
-        document.getElementById('rpsgame').classList.add('flex');
-      });
-      document.getElementById('playbtn').addEventListener('click', () => {
-        document.getElementById('landing').classList.add('hidden');
-        document.getElementById('rpsgame').classList.remove('hidden');
-        document.getElementById('rpsgame').classList.add('flex');
-      });
-
-      // Score highlight helpers (bonus UX)
-      function flashScore(el, win) {
-        el.classList.remove('winning','losing');
-        void el.offsetWidth;
-        el.classList.add(win ? 'winning' : 'losing');
-        setTimeout(() => el.classList.remove('winning','losing'), 1200);
-      }
-    </script>
   </body>
 </html>
